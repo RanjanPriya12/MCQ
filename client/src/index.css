@@ -1,7 +1,9 @@
 main{
   min-height: 80vh;
 }
-
+.link{
+  text-decoration: none;
+}
 .rating span{
   margin: 0.1rem;
 }

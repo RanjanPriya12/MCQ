@@ -1,24 +1,42 @@
-import { Footer } from "./components/Footer";
-import { Container } from 'react-bootstrap';
-import { Header } from "./components/Header";
-import { Home } from "./components/Home";
-import { Route, Routes } from 'react-router-dom';
-import { ProductDetail } from "./components/ProductDetail";
 
+import { Typography } from '@mui/material';
+import Link from '@mui/material/Link';
+import { Navbar } from './components/navbar';
+import { Home } from './pages/Home';
+import { Routes, Route } from 'react-router-dom';
+import SignIn from './pages/SignIn';
+import { SignUp } from './pages/SignUp';
+
+
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Welcome to our MCQ website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const App = () => {
   return (
     <>
-      <Header />
-      <main className="py-3">
-        <Container>
+    <Navbar/>
+     
+      
+       
         <Routes>
-          <Route path="/" element={<Home/>} exact/>
-          <Route path="/products/:id" element={<ProductDetail/>}/>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" element={<SignIn/>}/>
+          <Route path="/register" element={<SignUp/>}/>
           </Routes>
-        </Container>
-      </main>
-      <Footer />
+       
+    
+      <Copyright sx={{ mt: 1 }} />
       </>
       
   );
