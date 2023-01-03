@@ -2,23 +2,25 @@ import * as Types from "./action.types";
 import axios from "axios";
 
 export const loginUser = (params) => (dispatch) => {
+  console.log(params)
   dispatch({ type: Types.LOGIN_SUCCESS_REQUEST });
   return axios
     .post("http://localhost:5000/api/users/login", params)
-    .then((r) => {
-      dispatch({ type: Types.LOGIN_SUCCESS_SUCCESS, payload: r.data });
+    .then((res) => {
+      dispatch({ type: Types.LOGIN_SUCCESS_SUCCESS, payload: res.data });
       return Types.LOGIN_SUCCESS_SUCCESS;
     })
-    .catch((e) => {
+    .catch((err) => {
       dispatch({
         type: Types.LOGIN_SUCCESS_FAILURE,
-        payload: e.response.data,
+        payload: err.response.data,
       });
       return Types.LOGIN_SUCCESS_FAILURE;
     });
 };
 
 export const registerUser = (payload) => (dispatch) => {
+  console.log(payload);
   dispatch({ type: Types.REGISTER_SUCCESS_REQUEST });
   return axios
     .post("http://localhost:5000/api/users/register", payload, {

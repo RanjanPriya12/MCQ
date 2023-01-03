@@ -3,6 +3,7 @@ import * as Types from "./action.types";
 
 
 export const createQuestion = (mcq) => (dispatch) => {
+  console.log(mcq)
   dispatch({ type: Types.CREATE_MCQ_REQUEST });
   return axios
     .post("http://localhost:5000/api/question/createQuestions", mcq)

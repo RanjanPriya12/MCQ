@@ -10,11 +10,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from "react-redux";
+import { registerUser } from "../redux/auth/action";
 
 const theme = createTheme();
 
 
 export const SignUp = () => {
+  const dispatch=useDispatch();
   const initialState={
     name:"",
     email:"",
@@ -115,6 +118,7 @@ export const SignUp = () => {
     confPassValidation();
     if(name!=="" && email!=="" && password!=="" && confirmPassword!==""){
       console.log("user",user);
+      dispatch(registerUser(user));
     }
   }
 
@@ -142,13 +146,15 @@ export const SignUp = () => {
               <Grid item xs={12} sm={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="username"
+                  name="name"
+                  value={user.name} onChange={handleChange} onKeyUp={nameValidation} onBlur={nameValidation}
                   required
                   fullWidth
                   id="firstName"
                   label="User Name"
                   autoFocus
                 />
+                {nameErr && <p style={{color:"red"}}>{nameErr}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -156,32 +162,35 @@ export const SignUp = () => {
                   fullWidth
                   id="email"
                   label="Email Address"
-                  name="email"
+                  name="email" value={user.email} onChange={handleChange} onKeyUp={emailValidation} onBlur={emailValidation}
                   autoComplete="email"
                 />
+                {emailErr && <p style={{color:"red"}}>{emailErr}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="password" value={user.password} onChange={handleChange} onKeyUp={passValidation} onBlur={passValidation}
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
                 />
+                {passErr && <p style={{color:"red"}}>{passErr}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="ConPassword"
+                  name="confirmPassword" value={user.confirmPassword} onChange={handleChange} onKeyUp={confPassValidation} onBlur={confPassValidation}
                   label="Confirm Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
                 />
               </Grid>
+              {conPassErr && <p style={{color:"red"}}>{conPassErr}</p>}
             </Grid>
             <Button
               type="submit"

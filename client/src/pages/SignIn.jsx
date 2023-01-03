@@ -12,19 +12,77 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../redux/auth/action';
 
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  const dispatch=useDispatch();
+  const initialState={
+    email:"",
+    password:""
+  }
+  const [user,setUser]=useState(initialState);
+  const [emailErr,setEmailErr]=useState("");
+  const [passErr,setPassErr]=useState("");
+  const navigate=useNavigate();
+
+  const handleChange=(e)=>{
+    const {value,name}=e.target;
+    setUser({
+      ...user,
+      [name]:value
     });
-  };
+  }
+
+  const { email, password }= user;
+
+    
+    //email validation
+  const emailValidation=()=>{
+    const emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    if(!email){
+      setEmailErr("Email is required!");
+    }
+    else if(!email.match(emailRegex)){
+      setEmailErr("Please enter a valid email!");
+    }
+    else{
+      setEmailErr("");
+    }
+    return true;
+  }
+
+
+    //password validation
+  const passValidation=()=>{
+    const passRegex="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,10}$";
+    if(!password){
+      setPassErr("Please fill your password!");
+    }
+    else if(!password.match(passRegex)){
+      setPassErr("Password must contain one special character, one lowercse character, one upercase character, and it should be of 6-10 characters long!");
+    }
+    else{
+      setPassErr("");
+    }
+    return true;
+  }
+
+  
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    emailValidation();
+    passValidation();
+    if(email!=="" && password!==""){
+      console.log("user",user);
+      dispatch(loginUser(user));
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,20 +109,22 @@ export default function SignIn() {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
+              name="email" value={user.email} onChange={handleChange} onKeyUp={emailValidation} onBlur={emailValidation}
               autoComplete="email"
               autoFocus
             />
+            {emailErr && <p style={{color:"red"}}>{emailErr}</p>}
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="password" value={user.password} onChange={handleChange} onKeyUp={passValidation} onBlur={passValidation}
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
             />
+            {passErr && <p style={{color:"red"}}>{passErr}</p>}
             <Button
               type="submit"
               fullWidth
