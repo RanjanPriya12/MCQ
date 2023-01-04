@@ -24,7 +24,8 @@ export default function SignIn() {
   const dispatch=useDispatch();
   const initialState={
     email:"",
-    password:""
+    password:"",
+    role:'user'
   }
   const [user,setUser]=useState(initialState);
   const [emailErr,setEmailErr]=useState("");
@@ -81,6 +82,7 @@ export default function SignIn() {
     if(email!=="" && password!==""){
       console.log("user",user);
       dispatch(loginUser(user));
+      //navigate('/');
     }
   }
 

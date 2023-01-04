@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from "react-redux";
 import { registerUser } from "../redux/auth/action";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
@@ -22,13 +23,13 @@ export const SignUp = () => {
     name:"",
     email:"",
     password:"",
-    confirmPassword:""
+    role:"user"
   }
   const [user,setUser]=useState(initialState);
   const [nameErr,setNameErr]=useState("");
   const [emailErr,setEmailErr]=useState("");
   const [passErr,setPassErr]=useState("");
-  const [conPassErr,setConPassErr]=useState("");
+  const navigate=useNavigate();
 
   const handleChange=(e)=>{
     const {value,name}=e.target;
@@ -38,7 +39,7 @@ export const SignUp = () => {
     });
   }
 
-  const { name, email, password, confirmPassword}= user;
+  const { name, email, password }= user;
 
 
   // name validation
@@ -92,33 +93,16 @@ export const SignUp = () => {
   }
     
 
-
-    //confirm password validation
-  const confPassValidation=()=>{
-    const confPassRegex=password;
-    if(!confirmPassword){
-      setConPassErr("Please confirm your password!");
-    }
-    else if(!confirmPassword.match(confPassRegex)){
-      setConPassErr("Password did not match!");
-    }
-    else{
-      setConPassErr("");
-    }
-    
-    return true;
-  }
-
   
   const handleSubmit=(e)=>{
     e.preventDefault();
     nameValidation();
     emailValidation();
     passValidation();
-    confPassValidation();
-    if(name!=="" && email!=="" && password!=="" && confirmPassword!==""){
+    if(name!=="" && email!=="" && password!==""){
       console.log("user",user);
       dispatch(registerUser(user));
+      navigate('/');
     }
   }
 
@@ -179,18 +163,7 @@ export const SignUp = () => {
                 />
                 {passErr && <p style={{color:"red"}}>{passErr}</p>}
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirmPassword" value={user.confirmPassword} onChange={handleChange} onKeyUp={confPassValidation} onBlur={confPassValidation}
-                  label="Confirm Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              {conPassErr && <p style={{color:"red"}}>{conPassErr}</p>}
+              
             </Grid>
             <Button
               type="submit"

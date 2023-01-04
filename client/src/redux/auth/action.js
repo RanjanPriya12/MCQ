@@ -1,12 +1,12 @@
 import * as Types from "./action.types";
 import axios from "axios";
 
-export const loginUser = (params) => (dispatch) => {
-  console.log(params)
+export const loginUser = (payload) => (dispatch) => {
   dispatch({ type: Types.LOGIN_SUCCESS_REQUEST });
   return axios
-    .post("http://localhost:5000/api/users/login", params)
+    .post("http://localhost:5000/api/users/login", payload)
     .then((res) => {
+      console.log(res)
       dispatch({ type: Types.LOGIN_SUCCESS_SUCCESS, payload: res.data });
       return Types.LOGIN_SUCCESS_SUCCESS;
     })
@@ -23,19 +23,16 @@ export const registerUser = (payload) => (dispatch) => {
   console.log(payload);
   dispatch({ type: Types.REGISTER_SUCCESS_REQUEST });
   return axios
-    .post("http://localhost:5000/api/users/register", payload, {
-      headers: {
-        "content-type": "multipart/formdata",
-      },
-    })
-    .then((r) => {
-      dispatch({ type: Types.REGISTER_SUCCESS_SUCCESS, payload: r.data });
+    .post("http://localhost:5000/api/users/register", payload)
+    .then((res) => {
+      console.log("first",res)
+      dispatch({ type: Types.REGISTER_SUCCESS_SUCCESS, payload: res.data });
       return Types.REGISTER_SUCCESS_SUCCESS;
     })
-    .catch((e) => {
+    .catch((err) => {
       dispatch({
         type: Types.REGISTER_SUCCESS_FAILURE,
-        payload: e.response.data,
+        payload: err.response.data,
       });
       return Types.REGISTER_SUCCESS_FAILURE;
     });

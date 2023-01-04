@@ -6,7 +6,7 @@ export const createQuestion = (mcq) => (dispatch) => {
   console.log(mcq)
   dispatch({ type: Types.CREATE_MCQ_REQUEST });
   return axios
-    .post("http://localhost:5000/api/question/createQuestions", mcq)
+    .post("http://localhost:5000/api/question/admin/createMCQ", mcq)
     .then((res) => {
       dispatch(
         { type: Types.CREATE_MCQ_SUCCESS, payload: res.data },
@@ -29,7 +29,7 @@ export const createQuestion = (mcq) => (dispatch) => {
 export const getAllQuestions = (dispatch) => {
     dispatch({ type: Types.GET_ALL_MCQ_REQUEST });
     return axios
-      .post("http://localhost:5000/api/question/all")
+      .post("http://localhost:5000/api/question/all/questions")
       .then((res) => {
         dispatch(
           { type: Types.GET_ALL_MCQ_SUCCESS, payload: res.data },
@@ -55,7 +55,7 @@ export const clearError = () => (dispatch) => {
 export const deleteQuestion = (id) => (dispatch) => {
   dispatch({ type: Types.DELETE_MCQ_REQUEST });
   return axios
-    .delete(`http://localhost:5000/api/question/deleteQuestion/${id}`)
+    .delete(`http://localhost:5000/api/question/admin/deleteMCQ/${id}`)
     .then((res) => {
       dispatch({ type: Types.DELETE_MCQ_SUCCESS, payload: res.data });
     })
@@ -70,7 +70,7 @@ export const deleteQuestion = (id) => (dispatch) => {
 export const updateQuestion = (id, mcq) => (dispatch) => {
   dispatch({ type: Types.UPDATE_MCQ_REQUEST });
   return axios
-    .put(`http://localhost:5000/api/question/update/${id}`, mcq)
+    .put(`http://localhost:5000/api/question/admin/updateMCQ/${id}`, mcq)
     .then((res) => {
       dispatch({
         type: Types.UPDATE_MCQ_SUCCESS,

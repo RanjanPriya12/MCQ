@@ -32,13 +32,13 @@ export const CreateMCQ = () => {
         })
     }
     
-    let answerArr=[mcq.Answer1,mcq.Answer2,mcq.Answer3,mcq.Answer4];
-    let optionArr=[mcq.option1,mcq.option2,mcq.option3,mcq.option4];
-
+    let correctOption=[mcq.Answer1,mcq.Answer2,mcq.Answer3,mcq.Answer4];
+    let options=[mcq.option1,mcq.option2,mcq.option3,mcq.option4];
+    //const token=JSON.parse(localStorage.getItem('token'));
     const questionData={
         title:mcq.title,
-        answerArr,
-        optionArr
+        correctOption,
+        options,
     }
     const handleSubmit=(e)=>{
         e.preventDefault();
