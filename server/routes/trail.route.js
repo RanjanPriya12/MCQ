@@ -1,9 +1,8 @@
 const express = require("express");
-const authenticate = require("../middlewares/authenticate");
+const { isAuthenticate, isAuthorizeRoles } = require("../middlewares/auth");
 const router = express.Router();
 const trailServices = require("../services/trailService");
 const questionServices = require("../services/questionservice");
-const Role = require("../models/role.model");
 const User = require("../models/users.model");
 const Trails = require("../models/trails.model");
 
@@ -15,7 +14,7 @@ const Trails = require("../models/trails.model");
   @access : private
 */
 
-router.post("/", authenticate, async (req, res) => {
+router.post("/", isAuthenticate, async (req, res) => {
   try {
     let { trailName, questionsId } = req.body;
     const user = await User.findOne({ _id: req.user.id });
@@ -67,7 +66,7 @@ router.post("/", authenticate, async (req, res) => {
   @access : private
 */
 
-router.put("/update/:trailId", authenticate, async (req, res) => {
+router.put("/update/:trailId", isAuthenticate, async (req, res) => {
   try {
 
     let trailId = req.params.trailId;
@@ -119,7 +118,7 @@ router.put("/update/:trailId", authenticate, async (req, res) => {
   @access : private
 */
 
-router.get("/all", authenticate, async (req, res) => {
+router.get("/all", isAuthenticate, async (req, res) => {
  
   try {
     let trails = await trailServices.getAllTrails();

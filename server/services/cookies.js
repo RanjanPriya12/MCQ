@@ -58,6 +58,7 @@ const decode = (str) => {
   return processValue(decode(value));
 };
 
+
   const setCookie = (key, data, options) => {
   let _cookieOptions;
   let _req;

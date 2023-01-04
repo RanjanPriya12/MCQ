@@ -1,13 +1,11 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
-app.use(cookieParser());
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotEnv = require("dotenv");
-const userRouter = require("./routes/users.routes");
 const questionRouter = require("./routes/question.route");
-const roleRouter = require("./routes/role.router");
+const userRouter = require("./routes/users.routes");
 const trailRouter = require("./routes/trail.route");
 const resultRouter = require("./routes/result.router");
 const connectDB = require("./configs/db");
@@ -23,6 +21,7 @@ const corsOptions = {
 };
 //configure cors
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 //configure express to receive form data from client
 app.use(express.json());
@@ -34,7 +33,6 @@ dotEnv.config({ path: "./.env" });
 //router configuration
 
 app.use("/api/users", userRouter);
-app.use("/api/roles", roleRouter);
 app.use("/api/question", questionRouter);
 app.use("/api/trails", trailRouter);
 app.use("/api/result", resultRouter);

@@ -1,10 +1,8 @@
 const express = require("express");
-const authenticate = require("../middlewares/authenticate");
+const { isAuthenticate, isAuthorizeRoles } = require("../middlewares/auth");
 const router = express.Router();
 const resultService = require("../services/resultservice");
-const roleServices = require("../services/roleService");
 const User = require("../models/users.model");
-const Role = require("../models/role.model");
 const Trail = require("../models/trails.model");
 const Result = require("../models/result.model");
 
@@ -16,7 +14,7 @@ const Result = require("../models/result.model");
   @access : private
 */
 
-router.post("/createResult/:trailId", authenticate, async (req, res) => {
+router.post("/createResult/:trailId", isAuthenticate, async (req, res) => {
   try {
     const trailId = req.params.trailId;
     const user = await User.findOne({ _id: req.user.id });
@@ -75,7 +73,7 @@ router.post("/createResult/:trailId", authenticate, async (req, res) => {
   @access : private
 */
 
-router.delete("/:resultId", authenticate, async (req, res) => {
+router.delete("/:resultId", isAuthenticate, async (req, res) => {
   try {
     let resultId = req.params.resultId;
     const user = await User.findOne({ _id: req.user.id });
@@ -109,7 +107,7 @@ router.delete("/:resultId", authenticate, async (req, res) => {
   @access : private
 */
 
-router.get("/:trailId", authenticate, async (req, res) => {
+router.get("/:trailId", isAuthenticate, async (req, res) => {
   try {
     let trailId = req.params.trailId;
     let trail = await Result.find().populate('user',['name','email']);
@@ -141,7 +139,7 @@ router.get("/:trailId", authenticate, async (req, res) => {
   @method : GET
   @access : private
 */
-router.get("/user/trails", authenticate, async (req, res) => {
+router.get("/user/trails", isAuthenticate, async (req, res) => {
   try {
     
     let result = await Result.find().populate('trails',['trailName']).select("-createdAt")
