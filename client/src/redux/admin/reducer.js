@@ -9,6 +9,7 @@ const initialState = {
 
 export const adminReducer = (state = initialState, action) => {
   const { type, payload } = action;
+  console.log(payload)
   switch (type) {
     case Types.GET_ALL_MCQ_REQUEST:
     case Types.CREATE_MCQ_REQUEST:

@@ -11,17 +11,18 @@ import {
   AppBar,
   Container,
 } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { userLogout } from "../redux/auth/action";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Navbar = () => {
+  const navigate=useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
-  //const token=JSON.parse(localStorage.getItem('token'));
-  const role=JSON.parse(localStorage.getItem('userRole'));
+  const role=JSON.parse(localStorage.getItem('role'));
+  const token=(localStorage.getItem('token'));
+  console.log(role,token)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -31,8 +32,7 @@ export const Navbar = () => {
   };
 
   const dispatch = useDispatch();
-  const { user, isAuth } = useSelector((state) => state.authReducer);
-  console.log(user);
+  
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -44,6 +44,7 @@ export const Navbar = () => {
   };
   function logoutUser() {
     dispatch(userLogout());
+    navigate('/');
     toast.success("Logout Successfully", {
       position: "bottom-left",
       autoClose: 4000,
@@ -80,14 +81,10 @@ export const Navbar = () => {
             onClick={handleCloseNavMenu}
             sx={{ my: 2, color: "white", display: "block" }}
           >
-            <Link to="/test" className="link">
-              <Typography
-                textAlign="center"
-                sx={{ color: "white", fontSize: "18px" }}
-              >
-                MCQ-TEST
-              </Typography>
-            </Link><Link to="/create" className="link">
+            {
+              role==="admin"?(
+                <div style={{display:"flex", gap:"5rem"}}>
+            <Link to="/create" className="link">
               <Typography
                 textAlign="center"
                 sx={{ color: "white", fontSize: "18px" }}
@@ -95,9 +92,28 @@ export const Navbar = () => {
                 Create-MCQ
               </Typography>
             </Link>
+            <Link to="/mcqList" className="link">
+              <Typography
+                textAlign="center"
+                sx={{ color: "white", fontSize: "18px" }}
+              >
+                MCQ-List
+              </Typography>
+            </Link>
+            </div>
+            ):(  <Link to="/test" className="link">
+            <Typography
+              textAlign="center"
+              sx={{ color: "white", fontSize: "18px" }}
+            >
+              MCQ-TEST
+            </Typography>
+          </Link>)
+            }
+            
           </Button>
         </Box>
-
+       
         <Box
           display="flex"
           justifyContent="space-between"
@@ -106,9 +122,9 @@ export const Navbar = () => {
           p="10px 10px"
           sx={{ flexGrow: 0 }}
         >
-          
-            <Stack direction="row" spacing={0.4} alignItems="center">
+          {token?(<Stack direction="row" spacing={0.4} alignItems="center">
               <div>
+                
                 <Button
                   id="fade-button"
                   aria-controls={open ? "fade-menu" : undefined}
@@ -123,7 +139,7 @@ export const Navbar = () => {
                   }}
                   size="large"
                 >
-                  <Avatar alt={user && user?.user?.email} />
+                  <Avatar alt={role==='user'?'U':'A'} />
                 </Button>
                 <Menu
                   id="fade-menu"
@@ -150,15 +166,16 @@ export const Navbar = () => {
                   </MenuItem>
                 </Menu>
               </div>
-            </Stack>
-         
-            <Stack direction="row" spacing={1}>
+            </Stack>):(<Stack direction="row" spacing={1}>
               <NavLink to="/login" className="link">
                 <Button variant="contained" color="success">
                   Login
                 </Button>
               </NavLink>
-            </Stack>
+            </Stack>)}
+            
+         
+            
          
         </Box>
 

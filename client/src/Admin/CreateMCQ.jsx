@@ -44,6 +44,7 @@ export const CreateMCQ = () => {
         e.preventDefault();
         console.log("hello",questionData)
         dispatch(createQuestion(questionData));
+        setMcq(initialState);
     }
   return (
     <div style={{width:"50%", margin:"auto", padding:"20px"}}>

@@ -22,8 +22,7 @@ export const SignUp = () => {
   const initialState={
     name:"",
     email:"",
-    password:"",
-    role:"user"
+    password:""
   }
   const [user,setUser]=useState(initialState);
   const [nameErr,setNameErr]=useState("");

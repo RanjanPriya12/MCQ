@@ -7,6 +7,8 @@ export const loginUser = (payload) => (dispatch) => {
     .post("http://localhost:5000/api/users/login", payload)
     .then((res) => {
       console.log(res)
+      localStorage.setItem('token',JSON.stringify(res.data.token));
+      localStorage.setItem('role',JSON.stringify(res.data.user.role));
       dispatch({ type: Types.LOGIN_SUCCESS_SUCCESS, payload: res.data });
       return Types.LOGIN_SUCCESS_SUCCESS;
     })
@@ -45,6 +47,7 @@ export const userLogout = () => (dispatch) => {
     .get("http://localhost:5000/api/users/logout")
     .then((r) => {
       dispatch({ type: Types.USER_LOGOUT_SUCCESS, payload: r.data });
+      localStorage.clear();
       return Types.USER_LOGOUT_SUCCESS;
     })
     .catch((e) => {

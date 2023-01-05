@@ -18,22 +18,22 @@ export const createQuestion = (mcq) => (dispatch) => {
       dispatch(
         {
           type: Types.CREATE_MCQ_FAILURE,
-          payload: err.response.data,
+          payload: err?.response?.data,
         },
-        console.log(err.response.data)
+        console.log(err?.response?.data)
       );
     });
 };
 
 
-export const getAllQuestions = (dispatch) => {
+export const getAllQuestions =()=> (dispatch) => {
     dispatch({ type: Types.GET_ALL_MCQ_REQUEST });
     return axios
-      .post("http://localhost:5000/api/question/all/questions")
+      .get("http://localhost:5000/api/question/all/questions")
       .then((res) => {
+        console.log(res.data)
         dispatch(
-          { type: Types.GET_ALL_MCQ_SUCCESS, payload: res.data },
-          console.log(res.data)
+          { type: Types.GET_ALL_MCQ_SUCCESS, payload: res.data.questions },
         );
         return Types.GET_ALL_MCQ_SUCCESS;
       })

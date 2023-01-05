@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -24,8 +22,7 @@ export default function SignIn() {
   const dispatch=useDispatch();
   const initialState={
     email:"",
-    password:"",
-    role:'user'
+    password:""
   }
   const [user,setUser]=useState(initialState);
   const [emailErr,setEmailErr]=useState("");
@@ -82,7 +79,7 @@ export default function SignIn() {
     if(email!=="" && password!==""){
       console.log("user",user);
       dispatch(loginUser(user));
-      //navigate('/');
+      navigate('/');
     }
   }
 

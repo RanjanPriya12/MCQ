@@ -7,6 +7,9 @@ import { Routes, Route } from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { CreateMCQ } from './Admin/CreateMCQ';
+import { Test } from './User/Test';
+import { MCQList } from './Admin/MCQList';
+import RequiredAuth from './HOC/isAuthorize';
 
 
 
@@ -34,7 +37,24 @@ const App = () => {
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<SignIn/>}/>
           <Route path="/register" element={<SignUp/>}/>
-          <Route path='/create' element={<CreateMCQ/>}/>
+          <Route path='/create' element={
+          <RequiredAuth>
+          <CreateMCQ/>
+        </RequiredAuth>
+        }/>
+        <Route path='/test' element={
+          <RequiredAuth>
+          <Test/>
+        </RequiredAuth>
+        }/>
+        <Route path='/mcqList' element={
+          <RequiredAuth>
+          <MCQList/>
+        </RequiredAuth>
+        }/>
+          {/* <Route path='/create' element={<CreateMCQ/>}/>
+          <Route path="/test" element={<Test/>}/> */}
+          {/* <Route path='/mcqList' element={<MCQList/>}/> */}
           </Routes>
        
     
