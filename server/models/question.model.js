@@ -5,6 +5,7 @@ const QuestionSchema = new mongoose.Schema(
     title: { type: String, required: true },
     options: { type: [String], required: true },
     correctOption : { type: [String], required: true },
+    marks:{type:Number, default:5}
   },
   { timestamps: true }
 );

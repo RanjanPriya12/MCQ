@@ -14,6 +14,7 @@ const connectDB = require("./configs/db");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
+    "http://localhost:5000",
     "http://127.0.0.1:3000",
   ],
   credentials: true,
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
 });
 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 app.listen(port, async() => {
     try {
         await connectDB();

@@ -15,7 +15,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
   return res
     .status(201)
-    .json({ success: true, message: "Account Created Successfully" });
+    .json({ success: true,user, message: "Account Created Successfully" });
 });
 
 exports.loginUser = catchAsyncError(async (req, res, next) => {
@@ -50,44 +50,45 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
 
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY);
 
-    const refreshToken = jwt.sign(
-      {
-        user: {
-          id: user.id,
-          name: user.name,
-        },
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
-    );
+  //   const refreshToken = jwt.sign(
+  //     {
+  //       user: {
+  //         id: user.id,
+  //         name: user.name,
+  //       },
+  //     },
+  //     process.env.REFresH_TOKEN_SECRET,
+  //     { expiresIn: "1d" }
+  //   );
 
-    const role =userRole.name 
 
-    response.set("Access-Control-Allow-Origin", request.headers.origin); //req.headers.origin
-    response.set("Access-Control-Allow-Credentials", "true");
-    // access-control-expose-headers allows JS in the browser to see headers other than the default 7
-    response.set(
-      "Access-Control-Expose-Headers",
-      "date, etag, access-control-allow-origin, access-control-allow-credentials"
-    );
+  //   response.set("Access-Control-Allow-Origin", request.headers.origin); //req.headers.origin
+  //   response.set("Access-Control-Allow-Credentials", "true");
+  //   // access-control-expose-headers allows JS in the browser to see headers other than the default 7
+  //   response.set(
+  //     "Access-Control-Expose-Headers",
+  //     "date, etag, access-control-allow-origin, access-control-allow-credentials"
+  //   );
    
-    cookieService.setCookie("token", refreshToken, {
+  //   cookieService.setCookie("token", refreshToken, {
 
-      req: request,
-      res: response,
-    });
-   cookieService.setCookie("userRole", role, {
-      req: request,
-      res: response,
-    });
-    response.status(200).json({
+  //     req: request,
+  //     res: response,
+  //   });
+  //  cookieService.setCookie("userRole", role, {
+  //     req: request,
+  //     res: response,
+  //   });
+
+
+    res.status(200).json({
       msg: "Login is Successful",
       user: { ...user._doc, role: userRole.name },
       token: accessToken,
     });
   } catch (error) {
     console.log(error);
-    response.status(500).json({ errors: [{ msg: error.message }] });
+    res.status(500).json({ errors: [{ msg: error.message }] });
   }
   
 });

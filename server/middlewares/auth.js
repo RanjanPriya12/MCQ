@@ -1,14 +1,17 @@
 const jwt = require("jsonwebtoken");
 const cookieService = require("../services/cookies");
-const User = require("../models/users.model");
-const catchAsyncError = require("./error");
+require("dotenv").config();
 const ErrorHandle = require("../utils/errorHandle");
+
+
+
 
 exports.isAuthenticate = async (request, response, next) => {
   let token = cookieService.getCookie("token", {
     req: request,
     res: response,
   });
+  console.log(token)
   if (!token) {
     return response
       .status(401)
@@ -18,6 +21,7 @@ exports.isAuthenticate = async (request, response, next) => {
     let decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
     request.user = decoded.user;
+    console.log(decoded.user)
     next();
   } catch (error) {
     console.log(error);

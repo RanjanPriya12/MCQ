@@ -1,5 +1,5 @@
 const express = require("express");
-const { isAuthenticate, isAuthorizeRoles } = require("../middlewares/auth");
+
 
 const {
   registerUser,
