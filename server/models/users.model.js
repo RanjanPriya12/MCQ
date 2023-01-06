@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: {
       type: String,
-      default:'admin', 
+      default:'user', 
     },
     trails: [{
       type: Schema.Types.ObjectId,

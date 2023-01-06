@@ -10,6 +10,7 @@ import { CreateMCQ } from './Admin/CreateMCQ';
 import { Test } from './User/Test';
 import { MCQList } from './Admin/MCQList';
 import RequiredAuth from './HOC/isAuthorize';
+import { Score } from './User/Score';
 
 
 
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<SignIn/>}/>
           <Route path="/register" element={<SignUp/>}/>
+          <Route path='/score' element={<Score/>}/>
           <Route path='/create' element={
           <RequiredAuth>
           <CreateMCQ/>

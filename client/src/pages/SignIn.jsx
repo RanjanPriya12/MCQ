@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../redux/auth/action';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const theme = createTheme();
@@ -58,12 +60,12 @@ export default function SignIn() {
 
     //password validation
   const passValidation=()=>{
-    const passRegex="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,10}$";
+    const passRegex="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
     if(!password){
       setPassErr("Please fill your password!");
     }
     else if(!password.match(passRegex)){
-      setPassErr("Password must contain one special character, one lowercse character, one upercase character, and it should be of 6-10 characters long!");
+      setPassErr("Enter a strong password!");
     }
     else{
       setPassErr("");
@@ -80,6 +82,15 @@ export default function SignIn() {
       console.log("user",user);
       dispatch(loginUser(user));
       navigate('/');
+      toast.success("User login Successfully", {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 
@@ -142,6 +153,17 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
+      <ToastContainer
+          position="bottom-left"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
     </ThemeProvider>
   );
 }

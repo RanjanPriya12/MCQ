@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { createQuestion } from '../redux/admin/action';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export const CreateMCQ = () => {
@@ -45,6 +47,15 @@ export const CreateMCQ = () => {
         console.log("hello",questionData)
         dispatch(createQuestion(questionData));
         setMcq(initialState);
+        toast.success("Question created Successfully", {
+          position: "bottom-left",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
     }
   return (
     <div style={{width:"50%", margin:"auto", padding:"20px"}}>
@@ -193,6 +204,17 @@ export const CreateMCQ = () => {
             </Button>
             
           </Box>
+          <ToastContainer
+          position="bottom-left"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
     </div>
   )
 }

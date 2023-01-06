@@ -6,8 +6,10 @@ import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllQuestions } from "../redux/admin/action";
+import { useNavigate } from "react-router-dom";
 
 export const Test = () => {
+  const navigate=useNavigate();
   const initialState={
     title:"",
     Answer:[],
@@ -33,6 +35,7 @@ export const Test = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submit");
+    navigate('/score');
   };
 
   return (

@@ -6,10 +6,9 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteQuestion, getAllQuestions } from '../redux/admin/action';
-import { Button } from '@mui/material';
+import { SingleMCQ } from './SingleMCQ';
 
 export const MCQList = () => {
     const questions = useSelector(state=>state.adminReducer.questions);
@@ -22,7 +21,7 @@ export const MCQList = () => {
 
     useEffect(()=>{
         dispatch(getAllQuestions(questions));
-    },[dispatch])
+    },[dispatch,questions.length])
   return (
     <div style={{width:"70%", margin:"auto", marginTop:"50px"}}>
          <TableContainer component={Paper} style={{width:"80%", margin:"auto"}}>
@@ -42,11 +41,7 @@ export const MCQList = () => {
         </TableHead>
         <TableBody>
             {questions?.map((que,ind)=>(
-                <TableRow key={que._id}>
-                    <TableCell>{ind+1}</TableCell>
-                    <TableCell>{que.title}</TableCell>
-                    <TableCell><Button variant="outlined" onClick={handleDelete(que._id)} startIcon={<DeleteIcon />}/></TableCell>
-                </TableRow>
+                <SingleMCQ handleDelete={handleDelete} key={ind} que={que}/>
             ))}
         </TableBody>   
       </Table>
